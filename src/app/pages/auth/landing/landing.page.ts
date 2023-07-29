@@ -67,8 +67,9 @@ export class LandingPage implements OnInit {
     var form: any = this.formData;
     console.log(form)
     if (form.status=="VALID") {
-      this.authService.loginAccount(form.value)?.subscribe(userDetails=>{
+      this.authService.loginAccount(form.value)?.subscribe((userDetails : any)=>{
         if (userDetails !== null) {
+          this.menuCtrl.enable(true);
           this.router.navigate(['/home'], { replaceUrl: true });
       }
       })
@@ -84,7 +85,7 @@ export class LandingPage implements OnInit {
     var form: any = this.formData;
     console.log(form)
     if (form.status=="VALID") {
-      var userDetails =  await this.authService.generateOTP(form.value)?.subscribe(data => {
+      var userDetails =  await this.authService.generateOTP(form.value)?.subscribe((data: any) => {
         if (userDetails !== null) {
           // when OTP generated succesfully
           this.ngZone.run( () => {
@@ -107,8 +108,9 @@ export class LandingPage implements OnInit {
     var form: any = this.formData;
     console.log(form)
     if (form.status=="VALID") {
-      (await this.authService.createAccount(form.value)).subscribe(userDetails => {
+      (await this.authService.createAccount(form.value)).subscribe((userDetails: any) => {
         if (userDetails !== null) {
+          this.menuCtrl.enable(true);
           this.router.navigate(['/home'], { replaceUrl: true });
       }
       // this.menuCtrl.enable(true);

@@ -1,13 +1,33 @@
 ion-list {
     margin-bottom: 50%;
+    padding: 0; // removs white lines
   }
+.log-out{
+  margin-top: 20%
+}
 
-  .log-out{
-    margin-top: 20%
-  }
+ion-icon {
+  color: white;
+}
 
-  .app-side-menu {
-    ion-menu {
-      --background: black; /* Set the background color to black */
-    }
+ion-item {
+  --background: #000000; /* Make the background transparent */
+  --highlight-background: transparent; /* Make the background transparent when the item is pressed */
+  --inner-border-width: 0; /* Remove the inner border (lines) */
+  --color: white;
+  /* If you want to remove the outer border (shadow), add the following line */
+  --box-shadow: none;
+}
+
+ion-menu {
+  --background: #000000; 
+  --ion-color-base: white;
+}
+
+
+.head-text {
+  font-weight: bold;
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 2%;
 }

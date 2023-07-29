@@ -1,12 +1,11 @@
 import { Component, HostListener, NgZone } from '@angular/core';
-import { AlertController, MenuController, Platform } from '@ionic/angular';
+import { AlertController, MenuController, NavController, Platform } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { localKeys } from './core/constants/localStorage.keys';
 import * as _ from 'lodash-es';
 import { UserService,AuthService, HttpService} from './core/services';
 import { Router} from '@angular/router';
 import { ProfileService } from './core/services/profile/profile.service';
-import { Location } from '@angular/common';
 import { App, URLOpenListenerEvent } from '@capacitor/app';
 import { environment } from 'src/environments/environment';
 import { LocalStorageService } from './core/services/localStorage/localstorage.service';
@@ -38,8 +37,8 @@ export class AppComponent {
     private authService:AuthService,
     private profile: ProfileService,
     private zone:NgZone,
-    private _location: Location,
     private alert: AlertController,
+    private navCtrl: NavController,
   ) {
     this.initializeApp();
     this.router.navigate(["/"]);
@@ -76,7 +75,7 @@ export class AppComponent {
       //   document.querySelector('ion-menu').shadowRoot.querySelector('.menu-inner').setAttribute('style', 'border-radius:8px 8px 0px 0px');
       // }, 2000);
 
-      this.userService.userEventEmitted$.subscribe(data=>{
+      this.userService.userEventEmitted$.subscribe((data: { isAMentor: any; })=>{
         if(data){
           this.isMentor = data?.isAMentor;
           this.user = data;
@@ -125,8 +124,9 @@ export class AppComponent {
   }
 
   logout(){
-    this.translate.use("en")
-    this.authService.logoutAccount();
+    // this.translate.use("en")
+    // this.authService.logoutAccount();
+    this.navCtrl.navigateRoot('auth');
   }
   
   getUser() {

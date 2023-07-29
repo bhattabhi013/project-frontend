@@ -8,6 +8,16 @@ import { ProjectsInfoService } from 'src/app/core/services/projects/projects-inf
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  public pieChartOptions = {
+    responsive: true,
+  };
+
+  chartData: any = [{ data: [10,20,15], label: "Stock price" }];
+  chartLabels = ["c", "p", "s"];
+
+  chartOptions = {
+    responsive: true,
+  }
   projects: any;
   ionViewWillEnter(){
     this.projects = [
@@ -20,9 +30,9 @@ export class HomePage implements OnInit {
 
  
   ngOnInit() {
-    this.projectsService.getProject().subscribe(data => {
-      console.log(data);
-    });
+    // this.projectsService.getProject().subscribe(data => {
+    //   console.log(data);
+    // });
   }
 
 }

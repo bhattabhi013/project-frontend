@@ -1,4 +1,4 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { NgModule, importProvidersFrom, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -12,6 +12,10 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { NgChartsModule } from 'ng2-charts';
+
+
+
 // import { ServiceWorkerModule } from '@angular/service-worker';
 
 export const translateHttpLoaderFactory = (httpClient: HttpClient) =>
@@ -20,7 +24,7 @@ export const translateHttpLoaderFactory = (httpClient: HttpClient) =>
 @NgModule({
   declarations: [AppComponent],
   imports: [BrowserModule, HttpClientModule,FormsModule,
-    ReactiveFormsModule, IonicModule.forRoot(), TranslateModule.forRoot({
+    ReactiveFormsModule, IonicModule.forRoot(),  NgChartsModule, TranslateModule.forRoot({
     loader: {
         provide: TranslateLoader,
         useFactory: translateHttpLoaderFactory,
@@ -35,7 +39,8 @@ export const translateHttpLoaderFactory = (httpClient: HttpClient) =>
 //   registrationStrategy: 'registerWhenStable:30000'
 // }),
 ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -17,7 +17,7 @@
     font-size: 16px;
     line-height: 22px;
   
-    color: #8c8c8c;
+    color: black;
   
     margin: 0;
   }
@@ -26,18 +26,24 @@
     text-decoration: none;
   }
   
-  // .searchbar-container {
-  //   display: flex;
-  //   justify-content: flex-end;
-  // }
+  ion-searchbar {
+    --background: #e0e0e0; /* Grey background color */
+    --placeholder-color: black; /* White placeholder text color */
+    --color: black; 
+  
+    border-radius: 20px;
+  
+    /* Shadow effect */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 0 2px rgba(0, 0, 0, 0.1);
+  }
   
   .top{
     margin-top: 2%;
   }
   
   .fixed-image {
-    height: 100px;
-    width: 100px;
+    height: 80%;
+    width: 80%;
   }
   
   .grid-container {
@@ -47,8 +53,21 @@
   
   .projects-details{
     width: 100%;
+    color: #F5F5F7;
   }
   
   .center-container {
     margin-top: 10px
+  }
+
+  .pie-chart{
+    // width: 30%;
+    // height: 40%;
+  }
+
+  .rounded-container {
+    width: 40%; 
+    border-radius: 10px; 
+    background-color: #F5F5F7;
+    //margin-left: 5%;
   }

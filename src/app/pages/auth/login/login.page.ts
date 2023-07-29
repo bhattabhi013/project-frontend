@@ -66,7 +66,7 @@ export class LoginPage implements OnInit {
   }
 
   async translateText() {
-    this.translateService.get(this.labels).subscribe(translatedLabel => {
+    this.translateService.get(this.labels).subscribe((translatedLabel: any) => {
       let labelKeys = Object.keys(translatedLabel);
       labelKeys.forEach((key) => {
         let index = this.labels.findIndex(
@@ -78,7 +78,7 @@ export class LoginPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.activatedRoute.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe((params: any) => {
       this.id = params['sessionId'] ? params['sessionId'] : this.id;
       this.mentorId = params['mentorId']? params['mentorId']:this.mentorId;
     });

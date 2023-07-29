@@ -18,4 +18,9 @@ export class ProjectDetailsComponent  implements OnInit {
 
   ngOnInit() {}
 
+
+  getButtonColor(): string {
+    return this.projectStatus === 'Completed' ? 'green' : 'yellow';
+  }
+
 }

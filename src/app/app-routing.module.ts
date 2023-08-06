@@ -1,25 +1,23 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import { TranslateModule } from '@ngx-translate/core';
+import { PrivateGuard } from './core/gurads/private.guard';
 
 const routes: Routes = [
-{
-  path: '',
-  redirectTo: 'home',
-  pathMatch: 'full'
-},
+  {
+    path: '',
+    redirectTo: 'auth',
+    pathMatch: 'full'
+  },
   {
     path: 'auth',
     loadChildren: () => import('./pages/auth/auth.module').then(m => m.AuthPageModule)
   },
   {
     path: 'home',
+    canActivate: [PrivateGuard],
     loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
   },
-  {
-    path: 'home',
-    loadChildren: () => import('./pages/home/home.module').then( m => m.HomePageModule)
-  },
-
 ];
 @NgModule({
   imports: [

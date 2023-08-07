@@ -1,4 +1,4 @@
-import { NgModule, importProvidersFrom, isDevMode } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -39,8 +39,7 @@ ServiceWorkerModule.register('ngsw-worker.js', {
   registrationStrategy: 'registerWhenStable:30000'
 }),
 ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-   ],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

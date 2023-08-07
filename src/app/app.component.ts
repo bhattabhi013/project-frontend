@@ -1,5 +1,5 @@
-import { Component, HostListener, NgZone } from '@angular/core';
-import { AlertController, MenuController, NavController, Platform } from '@ionic/angular';
+import { Component, HostListener } from '@angular/core';
+import { MenuController } from '@ionic/angular';
 import { TranslateService } from '@ngx-translate/core';
 import { Router} from '@angular/router';
 import { localKeys } from 'src/app/core/constants/';
@@ -52,7 +52,7 @@ export class AppComponent {
   }
 
   logout(){
-    
+
   }
 }
 

@@ -11,11 +11,10 @@ ion-icon {
 }
 
 ion-item {
-  --background: #000000; /* Make the background transparent */
-  --highlight-background: transparent; /* Make the background transparent when the item is pressed */
-  --inner-border-width: 0; /* Remove the inner border (lines) */
+  --background: #000000; 
+  --highlight-background: transparent; 
+  --inner-border-width: 0;
   --color: white;
-  /* If you want to remove the outer border (shadow), add the following line */
   --box-shadow: none;
 }
 

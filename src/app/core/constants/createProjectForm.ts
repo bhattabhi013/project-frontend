@@ -95,10 +95,10 @@ export const createProjectForm =
       {
         "label": "Others",
         "value": "others",
-        "field":"otherinput",
+        "field":"otherCategory",
         "labelTranslations": "{\"en\":\"Others\"}",
         "visible": true,  
-        "input": "text" ,
+        "input": "other" ,
         "editable": true,
         "validation": {
           "required": true
@@ -108,19 +108,21 @@ export const createProjectForm =
         "hintTranslations": "PROJECT_CREATION.PRJ_TITLE_HINT"
       },
       {
-        "field": "start_date",
+        "field": "startDate",
         "label": "Start Date",
         "visible": true,
         "input": "date",
+        "value": "",
         "validation": {
           "required": true
         }
       },
       {
-        "field": "end_date",
+        "field": "endDate",
         "label": "End Date",
         "visible": true,
         "input": "date",
+        "value" : "",
         "validation": {
           "required": true
         }

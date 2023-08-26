@@ -10,41 +10,16 @@ import { HttpService, ToastService } from 'src/app/core/services';
   styleUrls: ['./create-projects.page.scss'],
 })
 export class CreateProjectsPage implements OnInit {
-  showOtherInput = false;
-  formData;
-  showOthers = false;
+  public title = "";
+  public showOthers = false;
+  createProjectForm = createProjectForm; 
+  public projectForm: FormGroup = this.fb.group({});
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private http: HttpService,
     private toast: ToastService
-    ) {
-      this.formData = this.formBuilder.group({
-        title: ['',[Validators.required]],
-        description: ['',[Validators.required]],
-        categories: ['', Validators.required],
-        other: ['',[]],
-        startDate: ['',[Validators.required]],
-        endDate: ['',[Validators.required]],
-      });;
+    ) { }
 
-      this.formData.get('categories')?.valueChanges.subscribe((selectedCategories: any) => {
-        // Check if 'other' is selected
-        let otherSelected = false;
-
-      selectedCategories.forEach((cat: { value: string }) => {
-        if (cat.value === 'others') {
-          otherSelected = true;
-        }
-      });
-
-      this.showOthers = otherSelected;
-      });
-  
-  }
-  datetime: any;
-  date = new Date().toISOString();
-  translations: any = {};
-  proj_title: any = ""
   configHeader = [
     {[headerConfigKeys.SHOW_BACK]: true, "action":headerConfigKeys.BACK},
     {[headerConfigKeys.SHOW_MENU]: true, "action": headerConfigKeys.MENU},
@@ -53,54 +28,8 @@ export class CreateProjectsPage implements OnInit {
     {[headerConfigKeys.SHOW_PROFILE]: false, "action": headerConfigKeys.PROFILE},
   ]
   
-  catOptions = [
-    {
-      "_id": "5fcfa9a2457d6055e33843ef",
-      "label": "Teachers",
-      "value": "teachers",
-      "labelTranslations": "{\"en\":\"Teachers\",\"hi\":\"शिक्षकों की\"}"
-    },
-    {
-      "_id": "5fcfa9a2457d6055e33843f0",
-      "label": "Students",
-      "value": "students",
-      "labelTranslations": "{\"en\":\"Students\"}"
-    },
-    {
-      "_id": "5fcfa9a2457d6055e33843f1",
-      "label": "Infrastructure",
-      "value": "infrastructure",
-      "labelTranslations": "{\"en\":\"Infrastructure\"}"
-    },
-    {
-      "_id": "5fcfa9a2457d6055e33843f2",
-      "label": "Community",
-      "value": "community",
-      "labelTranslations": "{\"en\":\"Community\"}"
-    },
-    {
-      "_id": "5fcfa9a2457d6055e33843f3",
-      "label": "Education Leader",
-      "value": "educationLeader",
-      "labelTranslations": "{\"en\":\"Education Leader\"}"
-    },
-    {
-      "_id": "5fcfa9a2457d6055e33843f4",
-      "label": "School Process",
-      "value": "schoolProcess",
-      "labelTranslations": "{\"en\":\"School Process\"}"
-    },
-    {
-      "_id": "",
-      "label": "Others",
-      "value": "others",
-      "labelTranslations": "{\"en\":\"Others\"}",
-      "showTextInput": false 
-    }
-  ];
-
-  ngOnInit() {
-   
+ ngOnInit() {
+  this.createForm(this.createProjectForm);
   }
 
   handleAction(action: string) {
@@ -126,29 +55,76 @@ export class CreateProjectsPage implements OnInit {
     }
   }
 
+  createForm(controls: any) {
+    this.projectForm = this.fb.group({});
+    for (const field of controls) {
+      let formControl = null;
+
+      if (field.input === 'select') {
+        formControl = this.fb.control('', Validators.required);
+        if (field.field === 'categories') {
+          formControl.valueChanges.subscribe((value: any) => {
+            let otherSelected = false;
+
+            value.forEach((cat: string) => {
+              if (cat === 'others') {
+                otherSelected = true;
+              }
+            });
+      
+            this.showOthers = otherSelected; 
+            if (this.showOthers) {
+              this.projectForm.get('otherCategory')?.setValidators([Validators.required]);
+              this.showOthers = true;
+            } else {
+              this.projectForm.get('otherCategory')?.clearValidators();
+            }
+            this.projectForm.get('otherCategory')?.updateValueAndValidity();
+          });
+        }
+      } else {
+        formControl = this.fb.control('', {
+          validators: field.validation.required ? Validators.required : null,
+          updateOn: 'blur',
+        });
+      }
+
+      this.projectForm.addControl(field.field, formControl);
+    }
+
+    this.projectForm.addControl(
+      'otherCategory',
+      this.fb.control('', {
+        validators: [],
+      })
+    );
+  }
+
 
   async onSubmit(){
 
-    const selectedEndDate = this.formData.get('endDate')?.value!;
-    const selectedStartDate = this.formData.get('startDate')?.value!;
+    console.log(this.projectForm.value);
+
+    const selectedEndDate = this.projectForm.get('endDate')?.value!;
+    const selectedStartDate = this.projectForm.get('startDate')?.value!;
     if(selectedStartDate > selectedEndDate){
       this.toast.showToast('PROJECT_CREATION.DATE_ERROR', 'danger');
       return;
     }
 
-    var selectedCategories: any = this.formData.get('categories')?.value
+    var selectedCategories: any = this.projectForm.get('categories')?.value
       // Check if 'other' is selected
     selectedCategories!.forEach((cat: any) => {
         if(cat.value == 'others'){
-          cat['name']  = this.formData.get('other')?.value;
+          cat['name']  = this.projectForm.get('other')?.value;
         }          
     })
-    console.log(this.formData?.value);
+    console.log(this.projectForm?.value);
     // makke api call
-    if(this.formData.valid){
+    if(this.projectForm.valid){
   
       const payload = {
-        ...this.formData.value,
+        ...this.projectForm.value,
         isDeleted: false,
         hasAcceptedTAndC: true,
         status: 'notStarted',
@@ -170,15 +146,8 @@ export class CreateProjectsPage implements OnInit {
     }
   }
 
-  startDate(event: any){
-    this.formData.patchValue({
-      startDate: event.detail.value
-    });
-  }
-
-  endDate(event: any){
-    this.formData.patchValue({
-      endDate: event.detail.value
-    });
+  setDate(event: any, ctrl: any){
+    console.log(event, ctrl);
+    this.projectForm.get(ctrl.field)?.setValue(event.detail.value);
   }
 }
